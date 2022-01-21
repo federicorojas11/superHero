@@ -1,0 +1,26 @@
+header {
+  border-bottom: 2px solid rgba(179, 179, 179, 0.842);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.459),
+    rgba(0, 0, 255, 0.61)
+  );
+}
+
+.page-title {
+  font-size: 2em;
+  color: rgb(26, 16, 16);
+  text-shadow: 0px 0px 5px rgb(255, 255, 255);
+  text-decoration: none;
+  transition: text-shadow 0.3s ease;
+  &:hover {
+    opacity: 0.9;
+    text-shadow: 0px 0px 3px rgb(255, 255, 255);
+  }
+}
+
+.search-input {
+  border: 1px solid rgba(133, 127, 127, 0.212);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.082);
+}
