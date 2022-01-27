@@ -8,7 +8,8 @@
       <input matInput [matAutocomplete]="auto" [formControl]="heroCtrl">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let heroe of filteredHeroes | async" [value]="heroe.name">
-          <img class="example-option-img" aria-hidden [src]="heroe.image.url" height="45" style="border-radius: 50%;">
+          <img class="example-option-img" aria-hidden [src]="heroe.image.url"
+            onError="this.src='assets/unknown-image.webp'" height="45" style="border-radius: 50%;">
 
           <small><strong> {{heroe.name}}</strong></small>
         </mat-option>

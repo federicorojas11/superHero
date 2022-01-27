@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
-  endpoint = 'https://www.superheroapi.com/api.php/923777511838288/search/I';
+  endpoint = 'https://www.superheroapi.com/api.php/923777511838288/search/';
   constructor(private http: HttpClient) {}
 
-  getHeroes(): Observable<any[]> {
-    return this.http.get<any[]>(this.endpoint);
+  getHeroes(name: string): Observable<any[]> {
+    return this.http.get<any[]>(this.endpoint + name);
   }
 }

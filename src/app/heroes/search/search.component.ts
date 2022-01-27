@@ -22,12 +22,16 @@ export class SearchComponent implements OnInit {
   heroes: Hero[] = [];
 
   constructor(private _searchService: SearchService) {
+    this.heroCtrl.valueChanges.subscribe((value: string) => {
+      console.log(this._searchService.getHeroes(value));
+    });
+
     this.filteredHeroes = this.heroCtrl.valueChanges.pipe(
       startWith(''),
       map((hero) => (hero ? this._filterHeroes(hero) : this.heroes.slice()))
     );
 
-    this._searchService.getHeroes().subscribe((res: any) => {
+    this._searchService.getHeroes(this.heroCtrl.value).subscribe((res: any) => {
       if (res.response === 'error') {
         console.log(res.response);
       } else {
