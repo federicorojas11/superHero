@@ -3,8 +3,18 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
-  exports: [MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  exports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatInputModule,
+    MatAutocompleteModule,
+  ],
 })
 export class MaterialModule {}

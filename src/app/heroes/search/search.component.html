@@ -1,0 +1,19 @@
+<app-header></app-header>
+
+<section>
+
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del heroe...</mat-label>
+      <input matInput [matAutocomplete]="auto" [formControl]="heroCtrl">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let heroe of filteredHeroes | async" [value]="heroe.name">
+          <img class="example-option-img" aria-hidden [src]="heroe.imgUrl" height="25">
+          <span>{{heroe.name}}</span> |
+          <small>Name: {{heroe.name}}</small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+</section>
