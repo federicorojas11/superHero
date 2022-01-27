@@ -2,7 +2,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HeroesService } from '../heroes.service';
-import { Hero } from '../hero';
+import { Hero } from '../../models/hero';
 
 @Component({
   selector: 'app-details-heroes',
