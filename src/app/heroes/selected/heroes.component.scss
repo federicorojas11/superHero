@@ -1,0 +1,80 @@
+h3,
+h4 {
+  color: rgba(214, 210, 210, 0.808);
+  font-family: "Galactic";
+}
+h3 {
+  font-size: 3em;
+}
+
+h4 {
+  color: #000;
+}
+
+.card-hero {
+  width: 100%;
+  min-height: 292px;
+  min-width: 160px;
+  cursor: pointer;
+  transition: 0.2s ease all;
+  border-radius: 2px;
+  background: linear-gradient(
+    rgba(240, 9, 9, 0.164),
+    transparent,
+    rgba(0, 0, 255, 0.267)
+  );
+  @media screen and (max-width: 575px) {
+    min-height: 320px;
+  }
+}
+
+.card-text {
+  list-style: none;
+  padding-left: 0;
+  color: #fff;
+  text-shadow: 0px 0px 4px black;
+}
+
+.progress {
+  height: 4px;
+}
+
+.img-character {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.card-title {
+  color: #fff;
+  background: rgba(70, 63, 63, 0.726);
+}
+
+.counter-three {
+  animation: smooth 0.5s ease forwards;
+  font-family: roboto;
+  text-align: center;
+  padding: 15px;
+  font-size: 35px;
+  color: rgb(255, 231, 14);
+  backdrop-filter: blur(5px);
+  background-color: rgba(185, 185, 185, 0.089);
+  text-shadow: 0px 1px 7px rgba(26, 27, 22, 0.89);
+  @keyframes smooth {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @media screen and (max-width: 991px) {
+    width: 100%;
+    font-size: 18px;
+    margin-top: 10px;
+    background-color: rgba(185, 185, 185, 0.082);
+  }
+}

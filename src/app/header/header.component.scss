@@ -33,7 +33,13 @@ header {
   &:hover {
     opacity: 1;
     background-color: rgba(50, 69, 238, 0.596);
-    border: 1px solid rgba(104, 83, 199, 0.514);
+    border: 1px solid rgba(167, 167, 194, 0.589);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .navbar {
+    padding: 0 !important;
   }
 }
 

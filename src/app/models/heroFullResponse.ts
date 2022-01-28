@@ -10,13 +10,13 @@ export interface Heroe {
     strength: any;
   };
   biography: {
-    aliases: string;
+    aliases: string[];
   };
   appearance: {
     race: string;
     gender: string;
-    weight: string;
-    height: string;
+    weight: string[];
+    height: string[];
     ['hair-color']: string;
     ['eye-color']: string;
   };

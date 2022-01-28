@@ -26,12 +26,12 @@
         <p>Villanos: 0/3</p>
       </div>
 
-      <div *ngIf="heroes.length > 0" class="col-12 order-2 order-md-4 text-center">
+      <div *ngIf="heroes.length > 0" class="order-2 order-md-4 text-center">
         <div class="container d-flex" style="overflow-x: scroll;">
           <div *ngFor="let heroe of heroes" class="mx-1 mt-4 mb-2">
             <div class="card-hero card text-center hero-{{heroe.id}}" (click)="switchHero(this.heroe.id)">
-              <img src="{{heroe.image.url}}" onError="this.src='../../assets/unknown-image.webp'" class="card-img-top"
-                style="border-radius: 50%; padding: 6px; max-height: 200px;" alt="heroe">
+              <img src="{{heroe.image.url}}" onError="this.src='../../assets/img/unknown-image.webp'"
+                class="card-img-top" style="border-radius: 50%; padding: 6px; max-height: 200px;" alt="heroe">
               <div class="card-body">
                 <h4 class="card-title"><strong>{{heroe.name}}</strong></h4>
               </div>

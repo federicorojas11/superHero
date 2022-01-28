@@ -55,6 +55,7 @@ export class SearchComponent implements OnInit, AfterViewChecked {
       this.selectedHeroes.push(this.heroes.find((x) => x.id === id));
       $('.hero-' + id).addClass('selected-card');
     }
+    console.log(this.selectedHeroes);
   }
 
   isSelected(id: number) {

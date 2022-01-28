@@ -1,3 +1,27 @@
 <app-header></app-header>
 
-<app-heroes></app-heroes>
+<app-heroes
+  *ngIf="_heroesService.heroesSeleccionados.length > 0 && _heroesService.villanosSeleccionados.length > 0;else voidCharacters">
+</app-heroes>
+
+<ng-template #voidCharacters>
+  <section>
+    <div class="container">
+      <div *ngIf="_heroesService.heroesSeleccionados.length > 0 && _heroesService.villanosSeleccionados.length > 0">
+        <div class="row align-items-center void-message">
+          <div class="col-6 offset-3 mt-5 text-center">
+            <b>Aun no se eligió ningún heroe. </b>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <a class="col-4 offset-4 mt-4 btn shadow-sm btn-select-char" routerLink="/search">
+          <i class="fas fa-mask"></i>
+          <span class="ml-1">Agregar Superheroes a mi equipo</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</ng-template>
