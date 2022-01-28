@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { SearchService } from './search.service';
+declare let $: any;
 
 interface Hero {
+  id: number;
   name: string;
   image: {
     url: string;
@@ -16,47 +16,68 @@ interface Hero {
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewChecked {
   heroCtrl = new FormControl();
-  filteredHeroes: Observable<Hero[]>;
   heroes: Hero[] = [];
+  selectedHeroes: Hero[] = [];
 
-  constructor(private _searchService: SearchService) {
-    this.heroCtrl.valueChanges.subscribe((value: string) => {
-      console.log(this._searchService.getHeroes(value));
-    });
-
-    this.filteredHeroes = this.heroCtrl.valueChanges.pipe(
-      startWith(''),
-      map((hero) => (hero ? this._filterHeroes(hero) : this.heroes.slice()))
-    );
-
-    this._searchService.getHeroes(this.heroCtrl.value).subscribe((res: any) => {
-      if (res.response === 'error') {
-        console.log(res.response);
-      } else {
-        res.results.forEach((el) => {
-          this.heroes.push(el);
-        });
-        console.log(this.heroes);
-      }
-      /*  Nota: mapeo a array (el buscador utiliza un observable)
-          res.results.map((heroes: any) => {
-            let hero = [heroes.name, heroes.image.url];
-
-            this.heroes.push(...hero);
-          });
-      */
-    });
-  }
+  constructor(private _searchService: SearchService) {}
 
   ngOnInit(): void {}
 
-  private _filterHeroes(value: string): Hero[] {
-    const filterValue = value.toLowerCase();
+  ngAfterViewChecked(): void {
+    this.autoFillSelected();
+  }
 
-    return this.heroes.filter((hero) =>
-      hero.name.toLowerCase().includes(filterValue)
-    );
+  search() {
+    this.heroes = [];
+    this._searchService
+      .getHeroes(/* this.heroCtrl.value */ 'l')
+      .subscribe((res: any) => {
+        if (res.response !== 'error') {
+          res.results.forEach((hero) => {
+            this.heroes.push(hero);
+          });
+        }
+      });
+  }
+
+  switchHero(id: number) {
+    // busco si el heroe ya esta seleccionado
+    if (this.selectedHeroes.find((heroe) => heroe.id === id)) {
+      // si lo encuentra lo quita del array
+      this.selectedHeroes = this.selectedHeroes.filter(
+        (heroe) => heroe !== this.selectedHeroes.find((x) => x.id === id)
+      );
+      $('.hero-' + id).removeClass('selected-card');
+    } else {
+      // si no lo encuentra lo agrego al array
+      this.selectedHeroes.push(this.heroes.find((x) => x.id === id));
+      $('.hero-' + id).addClass('selected-card');
+    }
+  }
+
+  isSelected(id: number) {
+    this.selectedHeroes.find((x) => x.id === id) ? true : false;
+  }
+
+  autoFillSelected() {
+    if (this.selectedHeroes.length > 0) {
+      for (let i = 0; i < this.selectedHeroes.length; i++) {
+        if (this.heroes.indexOf(this.selectedHeroes[i]) === -1) {
+          $('.hero-' + this.selectedHeroes[i].id).addClass('selected-card');
+        }
+      }
+
+      let hasSelected = this.selectedHeroes.some((ai) => {
+        return this.heroes.includes(ai);
+      });
+
+      if (hasSelected) {
+        this.selectedHeroes.forEach((element) => {
+          $('.hero-' + element.id).addClass('selected-card');
+        });
+      }
+    }
   }
 }

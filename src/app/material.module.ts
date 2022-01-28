@@ -15,6 +15,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSnackBarModule,
     MatInputModule,
     MatAutocompleteModule,
+    MatCardModule,
   ],
 })
 export class MaterialModule {}

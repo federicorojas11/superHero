@@ -2,19 +2,64 @@
 
 <section>
 
-  <form class="text-center">
-    <mat-form-field appearance="fill">
-      <mat-label>Nombre del heroe...</mat-label>
-      <input matInput [matAutocomplete]="auto" [formControl]="heroCtrl">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let heroe of filteredHeroes | async" [value]="heroe.name">
-          <img class="example-option-img" aria-hidden [src]="heroe.image.url"
-            onError="this.src='assets/unknown-image.webp'" height="45" style="border-radius: 50%;">
+  <div class="container">
+    <div class="row">
 
-          <small><strong> {{heroe.name}}</strong></small>
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+      <form class="col-12 col-md-4 order-1 order-md-2 text-center mt-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre del heroe...</mat-label>
+          <input matInput [formControl]="heroCtrl" placeholder="Ej. A, B, Z, Ironman, Light...">
+        </mat-form-field>
+        <br>
+        <button class="btn shadow-sm bg-dark" style="color: #fff;" (click)="search()">Buscar</button>
+      </form>
 
+      <div *ngIf="this.selectedHeroes.length === 0" class="offset-md-4"></div>
+
+      <div *ngIf="this.selectedHeroes.length > 0"
+        class="col-12 col-md-4 order-3 order-md-1 d-flex align-items-center justify-content-md-center pl-5 pl-md-0 counter-three heroes">
+        <p>Heroes: 0/3 </p>
+      </div>
+
+      <div *ngIf="this.selectedHeroes.length > 0"
+        class="col-12 col-md-4 order-4 order-md-3 d-flex align-items-center justify-content-md-center pl-5 pl-md-0 counter-three villanos">
+        <p>Villanos: 0/3</p>
+      </div>
+
+      <div *ngIf="heroes.length > 0" class="col-12 order-2 order-md-4 text-center">
+        <div class="container d-flex" style="overflow-x: scroll;">
+          <div *ngFor="let heroe of heroes" class="mx-1 mt-4 mb-2">
+            <div class="card-hero card text-center hero-{{heroe.id}}" (click)="switchHero(this.heroe.id)">
+              <img src="{{heroe.image.url}}" onError="this.src='../../assets/unknown-image.webp'" class="card-img-top"
+                style="border-radius: 50%; padding: 6px; max-height: 200px;" alt="heroe">
+              <div class="card-body">
+                <h4 class="card-title"><strong>{{heroe.name}}</strong></h4>
+              </div>
+              <div *ngIf="isSelected(this.heroe.id)" class="selected-text">
+                <strong>seleccionado</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="this.selectedHeroes.length === 0 && this.heroes.length > 0"
+        class="col-12 order-6 mt-3 d-flex justify-content-center">
+        <span style="color: #fff; font-weight: 500;">Seleccionar personajes: {{selectedHeroes.length}}/6</span>
+      </div>
+
+
+      <div *ngIf="this.selectedHeroes.length > 0"
+        class="col-12 col-md-6 order-5 d-flex justify-content-center justify-content-md-end">
+        <button class="btn shadow-sm bg-dark mt-3 mx-3" style="color: #fff;" (click)="search()">Agregar
+          personajes</button>
+      </div>
+
+      <div *ngIf="this.selectedHeroes.length > 0"
+        class="col-12 col-md-6 order-6 d-flex justify-content-center justify-content-md-start align-items-center">
+        <span style="color: #fff; font-weight: 500;">Personajes seleccionados: {{selectedHeroes.length}}/6</span>
+      </div>
+
+    </div>
+  </div>
 </section>

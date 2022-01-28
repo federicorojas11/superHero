@@ -2,7 +2,7 @@ header {
   border-bottom: 2px solid rgba(179, 179, 179, 0.842);
   background: linear-gradient(
     90deg,
-    rgba(255, 0, 0, 0.459),
+    rgba(255, 0, 0, 0.575),
     rgba(0, 0, 255, 0.61)
   );
 }
@@ -35,4 +35,17 @@ header {
     background-color: rgba(50, 69, 238, 0.596);
     border: 1px solid rgba(104, 83, 199, 0.514);
   }
+}
+
+.navbar-toggler {
+  position: absolute;
+  left: 5%;
+  top: 14px;
+}
+
+.navbar-collapse {
+  margin-top: 15px;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

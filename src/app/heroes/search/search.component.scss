@@ -1,3 +1,54 @@
 section {
   height: 80vh;
 }
+
+.card-hero {
+  width: 160px;
+  cursor: pointer;
+  transition: 0.2s ease all;
+  &:hover {
+    background: rgba(0, 0, 255, 0.205);
+    color: #fff;
+  }
+}
+
+.selected-card {
+  background: linear-gradient(rgb(2, 2, 88), rgb(36, 52, 138));
+  box-shadow: 0px 0px 3px 5px rgba(1, 1, 44, 0.479);
+  color: #fff;
+  &:hover {
+    background: linear-gradient(rgb(2, 2, 88), rgb(36, 52, 138));
+  }
+}
+
+.selected-text {
+  position: absolute;
+  text-transform: uppercase;
+  bottom: 5px;
+  left: 17%;
+}
+
+.counter-three {
+  animation: smooth 0.5s ease forwards;
+  font-family: roboto;
+  text-align: center;
+  padding: 15px;
+  font-size: 35px;
+  color: rgb(255, 231, 14);
+  backdrop-filter: blur(5px);
+  background-color: rgba(185, 185, 185, 0.377);
+  text-shadow: 0px 1px 7px rgba(26, 27, 22, 0.89);
+  @keyframes smooth {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    font-size: 18px;
+    margin-top: 10px;
+    background-color: rgba(185, 185, 185, 0.082);
+  }
+}
