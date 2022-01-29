@@ -7,14 +7,14 @@
 
 <div class="modal-body">
   <div class="row">
-    <div class="col-5">
+    <div class="col-6 col-sm-5 offset-3 offset-sm-0">
       <img src="{{character.image.url}}" class="mr-2" style="width: 100%" />
     </div>
-    <div class="col-7">
+    <div class="col-12 col-sm-7">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Detalles</th>
+            <th scope="col">Detalles:</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -49,5 +49,5 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">Close</button>
 </div>

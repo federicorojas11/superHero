@@ -27,11 +27,9 @@ header {
 
 .btn-logout {
   color: #fff !important;
-  opacity: 0.8;
   border: 1px solid rgba(255, 255, 255, 0.281);
   transition: opacity 0.3s ease-in background-color 0.4s ease-in;
   &:hover {
-    opacity: 1;
     background-color: rgba(50, 69, 238, 0.596);
     border: 1px solid rgba(167, 167, 194, 0.589);
   }

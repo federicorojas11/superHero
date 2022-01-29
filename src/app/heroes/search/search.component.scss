@@ -1,7 +1,3 @@
-section {
-  height: 80vh;
-}
-
 input,
 mat-label {
   color: #fff;
@@ -18,13 +14,20 @@ mat-label {
   background: rgba(253, 212, 136, 0.171);
   border: 1px solid rgba(41, 41, 41, 0.493);
   box-shadow: 0px 0px 3px 0px rgba(248, 203, 0, 0.582);
-
   color: rgb(15, 15, 15);
-  &:hover {
-    background: linear-gradient(#5200ff30, #005affc4);
-    color: rgb(214, 214, 214);
-    box-shadow: 0px 0px 2px 0px #fff;
+  @media (pointer: fine) {
+    &:hover {
+      background: linear-gradient(#5200ff30, #005affc4);
+      color: rgb(214, 214, 214);
+      box-shadow: 0px 0px 2px 0px #fff;
+    }
   }
+}
+
+.card-ocupation-text {
+  overflow: hidden;
+  max-width: 200px;
+  font-size: 12px;
 }
 
 .selected-card {
@@ -37,10 +40,14 @@ mat-label {
 }
 
 .selected-text {
-  position: absolute;
   text-transform: uppercase;
-  bottom: 5px;
-  left: 17%;
+  font-family: "Galactic";
+  font-weight: 500;
+}
+
+.character-alignment {
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .counter-three {
@@ -68,15 +75,32 @@ mat-label {
   }
 }
 
+.characters-container {
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 100vw;
+  @media screen and (min-width: 576) {
+    width: auto;
+  }
+}
 //scrollbar
 ::-webkit-scrollbar {
-  width: 13px;
-  height: 13px;
+  -webkit-appearance: none;
+  -webkit-overflow-scrolling: auto; //display scrollbar on mobile
 }
+
+::-webkit-scrollbar:vertical {
+  width: 16px;
+}
+::-webkit-scrollbar:horizontal {
+  width: 45px;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: #d28b07;
+  background: linear-gradient(90deg, #ac7d27, #ffbb00);
   border: 1px solid #b7ba71;
   border-radius: 5px;
+  min-width: 45px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #ee8f12c4;

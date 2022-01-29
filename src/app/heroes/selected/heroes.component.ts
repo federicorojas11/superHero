@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Heroe } from 'src/app/models/heroFullResponse';
 import { HeroesService } from '../heroes.service';
@@ -11,18 +11,23 @@ import { HeroesDetailsComponent } from '../details/heroes-details.component';
 export class HeroesComponent implements OnInit {
   heroes: Heroe[] = [];
   villanos: Heroe[] = [];
+
   constructor(
     public _heroesService: HeroesService,
     private _ngbModal: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this._heroesService.heroesSeleccionados.forEach((element) => {
-      this.heroes.push(element);
-    });
-    // this._heroesService.villanosSeleccionados.forEach((element) => {
-    //   this.heroes.push(element);
-    // });
+    if (this._heroesService.selectedCharacters.heroes) {
+      this._heroesService.selectedCharacters.heroes.forEach((element) => {
+        this.heroes.push(element);
+      });
+    }
+
+    if (this._heroesService.selectedCharacters.villanos)
+      this._heroesService.selectedCharacters.villanos.forEach((element) => {
+        this.villanos.push(element);
+      });
   }
 
   showDetails(character: Heroe) {

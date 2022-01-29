@@ -11,6 +11,7 @@ export interface Heroe {
   };
   biography: {
     aliases: string[];
+    alignment: string;
   };
   appearance: {
     race: string;

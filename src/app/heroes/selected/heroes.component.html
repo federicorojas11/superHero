@@ -8,8 +8,8 @@
     </div>
 
 
-    <div *ngIf="_heroesService.heroesSeleccionados.length > 0" class="row text-center">
-      <div *ngFor="let heroe of heroes"
+    <div *ngIf="this.heroes.length > 0" class="row text-center">
+      <div *ngFor="let heroe of this.heroes"
         class="col-8 offset-2 col-sm-4 col-lg-3 offset-sm-0 mt-4 mb-2 d-flex flex-column align-items-center justify-content-center">
         <div class="card-hero card text-center hero-{{heroe.id}}">
 
@@ -55,7 +55,7 @@
         </ul>
       </div>
 
-      <div *ngIf="_heroesService.heroesSeleccionados.length === 1"
+      <div *ngIf="this.heroes.length === 1"
         class="col-md-4 col-sm-4 col-lg-3 d-none d-sm-flex justify-content-center align-items-center"
         style="align-self: center;">
         <a routerLink="/search" class="card d-flex align-items-center p-2 btn-add-character">
@@ -64,8 +64,7 @@
         </a>
       </div>
 
-      <div
-        *ngIf="_heroesService.heroesSeleccionados.length ===  1 || this._heroesService.heroesSeleccionados.length === 2"
+      <div *ngIf="this.heroes.length ===  1 || this.heroes.length === 2"
         class="col-md-4 col-sm-4 col-lg-3 d-flex justify-content-center align-items-center" style="align-self: center;">
         <a routerLink="/search" class="card d-flex align-items-center p-2 btn-add-character">
           <i class="fas fa-mask"></i>
@@ -78,20 +77,68 @@
       </div>
     </div>
 
-    <div *ngIf="villanos.length > 0" class="row text-center">
-      <div *ngFor="let villano of villanos"
-        class="col-8 offset-2 col-sm-4 offset-sm-0 d-flex justify-content-center mt-4 mb-2 text-center">
+    <div *ngIf="this.villanos.length > 0" class="row text-center mt-3">
+      <div *ngFor="let villano of this.villanos"
+        class="col-8 offset-2 col-sm-4 col-lg-3 offset-sm-0 mt-4 mb-2 d-flex flex-column align-items-center justify-content-center">
         <div class="card-hero card text-center hero-{{villano.id}}">
 
           <img src="{{villano.image.url}}" class="img-character"
             onError="this.src='../../assets/img/unknown-image.webp'" alt="villano">
 
 
-          <div class="card-body">
+          <div class="card-body d-flex flex-column justify-content-between">
             <h4 class="card-title px-2 py-1"><strong>{{villano.name}}</strong></h4>
+
+            <div>
+              <button (click)="showDetails(villano)" class="btn btn-primary mx-1">+ Detalles</button>
+              <button (click)="removeCharacter(villano.id)" class="btn btn-secondary mx-1">x Eliminar</button>
+            </div>
           </div>
 
         </div>
+        <ul class="powerstats w-100">
+          <li>
+            intelligence:
+            <ngb-progressbar type="danger" [value]="this.villano.powerstats.durability"></ngb-progressbar>
+          </li>
+          <li>
+            strength:
+            <ngb-progressbar type="danger" [value]="this.villano.powerstats.strength"></ngb-progressbar>
+          </li>
+          <li>
+            speed:
+            <ngb-progressbar type="danger" [value]="this.villano.powerstats.speed"></ngb-progressbar>
+          </li>
+          <li>
+            durability:
+            <ngb-progressbar type="danger" [value]="this.villano.powerstats.durability"></ngb-progressbar>
+          </li>
+          <li>
+            power:
+            <ngb-progressbar type="danger" [value]="this.villano.powerstats.power"></ngb-progressbar>
+          </li>
+          <li>
+            combat:
+            <ngb-progressbar type="danger" [value]="this.villano.powerstats.combat"></ngb-progressbar>
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="this.villanos.length === 1"
+        class="col-md-4 col-sm-4 col-lg-3 d-none d-sm-flex justify-content-center align-items-center"
+        style="align-self: center;">
+        <a routerLink="/search" class="card d-flex align-items-center p-2 btn-add-character">
+          <i class="fas fa-mask"></i>
+          <span class="mt-1 mx-2">Agregar personaje</span>
+        </a>
+      </div>
+
+      <div *ngIf="this.villanos.length ===  1 || this.villanos.length === 2"
+        class="col-md-4 col-sm-4 col-lg-3 d-flex justify-content-center align-items-center" style="align-self: center;">
+        <a routerLink="/search" class="card d-flex align-items-center p-2 btn-add-character">
+          <i class="fas fa-mask"></i>
+          <span class="mt-1 mx-2">Agregar personaje</span>
+        </a>
       </div>
 
       <div class="col col-lg-3 d-flex align-items-center justify-content-md-center counter-three villanos">
