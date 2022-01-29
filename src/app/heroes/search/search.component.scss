@@ -2,20 +2,34 @@ section {
   height: 80vh;
 }
 
+input,
+mat-label {
+  color: #fff;
+  &::placeholder {
+    color: rgba(224, 224, 224, 0.616);
+  }
+}
+
 .card-hero {
-  width: 160px;
+  width: 190px;
+  height: 322px;
   cursor: pointer;
   transition: 0.2s ease all;
-  height: 282px;
+  background: rgba(253, 212, 136, 0.171);
+  border: 1px solid rgba(41, 41, 41, 0.493);
+  box-shadow: 0px 0px 3px 0px rgba(248, 203, 0, 0.582);
+
+  color: rgb(15, 15, 15);
   &:hover {
-    background: rgba(0, 0, 255, 0.205);
-    color: #fff;
+    background: linear-gradient(#5200ff30, #005affc4);
+    color: rgb(214, 214, 214);
+    box-shadow: 0px 0px 2px 0px #fff;
   }
 }
 
 .selected-card {
   background: linear-gradient(rgb(2, 2, 88), rgb(36, 52, 138));
-  box-shadow: 0px 0px 3px 5px rgba(1, 1, 44, 0.479);
+  box-shadow: 0px 0px 6px 3px rgba(110, 110, 238, 0.479);
   color: #fff;
   &:hover {
     background: linear-gradient(rgb(2, 2, 88), rgb(36, 52, 138));
@@ -52,4 +66,23 @@ section {
     margin-top: 10px;
     background-color: rgba(185, 185, 185, 0.082);
   }
+}
+
+//scrollbar
+::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d28b07;
+  border: 1px solid #b7ba71;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ee8f12c4;
+}
+::-webkit-scrollbar-track {
+  background: #f2f5bf;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 0px 0px #f0f0f0;
 }

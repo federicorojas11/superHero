@@ -1,30 +1,52 @@
 <div class="modal-header">
-  <h4 class="modal-title">Modal title</h4>
+  <h4 class="modal-title">{{character.name}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
 <div class="modal-body">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Heroe</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let hero of heroes">
-        <th scope="row">{{ hero.id }}</th>
-        <td>
-          <img [src]="'{{ hero.imgUrl }}'" class="mr-2" style="width: 20px" />
-          {{ hero.name }}
-        </td>
-        <td>{{ hero.name | uppercase }}</td>
-        <td>{{ hero.weight }}</td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div class="row">
+    <div class="col-5">
+      <img src="{{character.image.url}}" class="mr-2" style="width: 100%" />
+    </div>
+    <div class="col-7">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Detalles</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Nombre</th>
+            <td>{{ character.name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Peso</th>
+            <td>{{ character.appearance.weight[1] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Altura</th>
+            <td>{{ character.appearance.height[1] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Alias</th>
+            <td>{{ character.biography.aliases}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Color de ojos</th>
+            <td>{{ character.appearance['eye-color']}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Lugar de trabajo</th>
+            <td>{{ character.work.base}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>

@@ -1,5 +1,6 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from './search.service';
 declare let $: any;
 
@@ -21,7 +22,10 @@ export class SearchComponent implements OnInit, AfterViewChecked {
   heroes: Hero[] = [];
   selectedHeroes: Hero[] = [];
 
-  constructor(private _searchService: SearchService) {}
+  constructor(
+    private _searchService: SearchService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {}
 
@@ -52,10 +56,15 @@ export class SearchComponent implements OnInit, AfterViewChecked {
       $('.hero-' + id).removeClass('selected-card');
     } else {
       // si no lo encuentra lo agrego al array
-      this.selectedHeroes.push(this.heroes.find((x) => x.id === id));
-      $('.hero-' + id).addClass('selected-card');
+      if (this.selectedHeroes.length >= 6) {
+        this._snackBar.open('El equipo ya está completo...', '', {
+          duration: 2500,
+        });
+      } else {
+        this.selectedHeroes.push(this.heroes.find((x) => x.id === id));
+        $('.hero-' + id).addClass('selected-card');
+      }
     }
-    console.log(this.selectedHeroes);
   }
 
   isSelected(id: number) {

@@ -15,7 +15,6 @@ h4 {
   width: 100%;
   min-height: 292px;
   min-width: 160px;
-  cursor: pointer;
   transition: 0.2s ease all;
   border-radius: 2px;
   background: linear-gradient(
@@ -26,17 +25,22 @@ h4 {
   @media screen and (max-width: 575px) {
     min-height: 320px;
   }
-}
 
-.card-text {
-  list-style: none;
-  padding-left: 0;
-  color: #fff;
-  text-shadow: 0px 0px 4px black;
-}
-
-.progress {
-  height: 4px;
+  //fix card button sizing
+  @media screen and (min-width: 768px) and (max-width: 1200px) {
+    & .btn {
+      font-size: 11px;
+    }
+  }
+  @media screen and (min-width: 576px) and (max-width: 767px) {
+    & .btn {
+      font-size: 10px;
+      padding: 3px;
+      margin: 0 !important;
+      margin-left: 1px !important;
+      margin-right: 1px !important;
+    }
+  }
 }
 
 .img-character {
@@ -76,5 +80,47 @@ h4 {
     font-size: 18px;
     margin-top: 10px;
     background-color: rgba(185, 185, 185, 0.082);
+  }
+}
+
+.powerstats {
+  background-color: rgba(245, 245, 245, 0.089);
+  list-style: none;
+  padding: 10px;
+  padding-top: 5px;
+  color: #fff;
+  text-shadow: 0px 0px 4px black;
+}
+
+ngb-progressbar {
+  opacity: 0.75;
+  height: 4px;
+}
+
+.btn-primary {
+  background: #0568fc94;
+  border: 1px solid #0578fcf1;
+  &:hover {
+    background: #0066ffea;
+    border: 1px solid #016ce6;
+  }
+}
+.btn-secondary {
+  background: rgba(204, 4, 4, 0.589);
+  border: 1px solid rgba(204, 4, 4, 0.815);
+  &:hover {
+    background: rgba(226, 5, 5, 0.822);
+    border: 1px solid rgba(196, 0, 0, 0.925);
+  }
+}
+
+.btn-add-character {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.726);
+  text-decoration: none;
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.267);
   }
 }

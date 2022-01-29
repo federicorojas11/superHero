@@ -8,9 +8,9 @@
     </div>
 
 
-    <div *ngIf="_heroesService.heroesSeleccionados.length > 0" class="row  text-center">
+    <div *ngIf="_heroesService.heroesSeleccionados.length > 0" class="row text-center">
       <div *ngFor="let heroe of heroes"
-        class="col-8 offset-2 col-sm-4 col-lg-3 offset-sm-0 d-flex justify-content-center mt-4 mb-2 text-center">
+        class="col-8 offset-2 col-sm-4 col-lg-3 offset-sm-0 mt-4 mb-2 d-flex flex-column align-items-center justify-content-center">
         <div class="card-hero card text-center hero-{{heroe.id}}">
 
           <img src="{{heroe.image.url}}" class="img-character" onError="this.src='../../assets/img/unknown-image.webp'"
@@ -19,54 +19,58 @@
 
           <div class="card-body d-flex flex-column justify-content-between">
             <h4 class="card-title px-2 py-1"><strong>{{heroe.name}}</strong></h4>
-            <ul class="card-text">
-              <li>
-                intelligence:
-                <div class="progress">
-                  <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </li>
-              <li>
-                intelligence:
-                <div class="progress">
-                  <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </li>
-              <li>
-                intelligence:
-                <div class="progress">
-                  <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </li>
-              <li>
-                intelligence:
-                <div class="progress">
-                  <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </li>
-              <li>
-                intelligence:
-                <div class="progress">
-                  <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </li>
-              <li>
-                intelligence:
-                <div class="progress">
-                  <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </li>
-            </ul>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+            <div>
+              <button (click)="showDetails(heroe)" class="btn btn-primary mx-1">+ Detalles</button>
+              <button (click)="removeCharacter(heroe.id)" class="btn btn-secondary mx-1">x Eliminar</button>
+            </div>
           </div>
 
         </div>
+        <ul class="powerstats w-100">
+          <li>
+            intelligence:
+            <ngb-progressbar type="danger" [value]="this.heroe.powerstats.intelligence"></ngb-progressbar>
+          </li>
+          <li>
+            strength:
+            <ngb-progressbar type="danger" [value]="this.heroe.powerstats.strength"></ngb-progressbar>
+          </li>
+          <li>
+            speed:
+            <ngb-progressbar type="danger" [value]="this.heroe.powerstats.speed"></ngb-progressbar>
+          </li>
+          <li>
+            durability:
+            <ngb-progressbar type="danger" [value]="this.heroe.powerstats.durability"></ngb-progressbar>
+          </li>
+          <li>
+            power:
+            <ngb-progressbar type="danger" [value]="this.heroe.powerstats.power"></ngb-progressbar>
+          </li>
+          <li>
+            combat:
+            <ngb-progressbar type="danger" [value]="this.heroe.powerstats.combat"></ngb-progressbar>
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="_heroesService.heroesSeleccionados.length === 1"
+        class="col-md-4 col-sm-4 col-lg-3 d-none d-sm-flex justify-content-center align-items-center"
+        style="align-self: center;">
+        <a routerLink="/search" class="card d-flex align-items-center p-2 btn-add-character">
+          <i class="fas fa-mask"></i>
+          <span class="mt-1 mx-2">Agregar personaje</span>
+        </a>
+      </div>
+
+      <div
+        *ngIf="_heroesService.heroesSeleccionados.length ===  1 || this._heroesService.heroesSeleccionados.length === 2"
+        class="col-md-4 col-sm-4 col-lg-3 d-flex justify-content-center align-items-center" style="align-self: center;">
+        <a routerLink="/search" class="card d-flex align-items-center p-2 btn-add-character">
+          <i class="fas fa-mask"></i>
+          <span class="mt-1 mx-2">Agregar personaje</span>
+        </a>
       </div>
 
       <div class="col col-lg-3 d-flex align-items-center justify-content-md-center counter-three heroes">

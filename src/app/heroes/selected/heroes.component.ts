@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Heroe } from 'src/app/models/heroFullResponse';
 import { HeroesService } from '../heroes.service';
-
+import { HeroesDetailsComponent } from '../details/heroes-details.component';
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
@@ -10,7 +11,10 @@ import { HeroesService } from '../heroes.service';
 export class HeroesComponent implements OnInit {
   heroes: Heroe[] = [];
   villanos: Heroe[] = [];
-  constructor(public _heroesService: HeroesService) {}
+  constructor(
+    public _heroesService: HeroesService,
+    private _ngbModal: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this._heroesService.heroesSeleccionados.forEach((element) => {
@@ -20,4 +24,10 @@ export class HeroesComponent implements OnInit {
     //   this.heroes.push(element);
     // });
   }
+
+  showDetails(character: Heroe) {
+    const modalRef = this._ngbModal.open(HeroesDetailsComponent);
+    modalRef.componentInstance.character = character;
+  }
+  removeCharacter(id: string) {}
 }
