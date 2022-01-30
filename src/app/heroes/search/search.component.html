@@ -5,11 +5,10 @@
   <div class="container">
     <div class="row">
 
-      <form class="col-12 col-md-4 order-1 order-md-2 text-center mt-2">
+      <form [formGroup]="searchForm" class="col-12 col-md-4 order-1 order-md-2 text-center mt-2">
         <mat-form-field appearance="fill">
           <mat-label>Nombre del heroe...</mat-label>
-          <input [formControl]="searchForm" matInput formControlName="name"
-            placeholder="Ej. A, B, Z, Ironman, Light...">
+          <input formControlName="name" matInput formControlName="name" placeholder="Ej. A, B, Z, Ironman, Light...">
           <mat-error>Agregue un nombre</mat-error>
         </mat-form-field>
         <br>

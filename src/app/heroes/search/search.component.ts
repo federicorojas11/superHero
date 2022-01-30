@@ -17,7 +17,9 @@ declare let $: any;
 export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   private subscriptions = new Subscription();
 
-  searchForm = new FormControl('', Validators.required);
+  searchForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+  });
 
   characters: Heroe[] = [];
   selectedCharacters: Characters = { heroes: [], villanos: [] };
@@ -44,7 +46,7 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.characters = [];
     this.subscriptions.add(
       this._heroesService
-        .getHeroes(this.searchForm.value)
+        .getHeroes(this.searchForm.get('name').value)
         .subscribe((res: any) => {
           if (res.response !== 'error') {
             res.results.forEach((hero) => {
