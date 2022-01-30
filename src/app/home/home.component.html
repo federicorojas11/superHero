@@ -1,7 +1,7 @@
 <app-header></app-header>
 
-<app-heroes *ngIf="this._heroesService.hasSelectedCharacters() ;else voidCharacters">
-</app-heroes>
+<app-selected *ngIf="this._heroesService.hasSelectedCharacters() ;else voidCharacters">
+</app-selected>
 
 <ng-template #voidCharacters>
   <section>

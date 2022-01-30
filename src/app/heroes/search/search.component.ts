@@ -2,10 +2,10 @@ import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Subscriber, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Heroe } from 'src/app/models/heroFullResponse';
 import { Characters } from '../../models/characters';
-import { SearchService } from './search.service';
+import { HeroesService } from '../heroes.service';
 
 declare let $: any;
 
@@ -17,17 +17,13 @@ declare let $: any;
 export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   private subscriptions = new Subscription();
 
-  searchForm = new FormGroup(
-    {
-      name: new FormControl('', Validators.required),
-    },
-    { updateOn: 'submit' }
-  );
+  searchForm = new FormControl('', Validators.required);
+
   characters: Heroe[] = [];
   selectedCharacters: Characters = { heroes: [], villanos: [] };
 
   constructor(
-    private _searchService: SearchService,
+    private _heroesService: HeroesService,
     private _snackBar: MatSnackBar,
     private router: Router
   ) {}
@@ -47,8 +43,8 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   search() {
     this.characters = [];
     this.subscriptions.add(
-      this._searchService
-        .getHeroes(/* this.heroCtrl.value */ 'G')
+      this._heroesService
+        .getHeroes(this.searchForm.value)
         .subscribe((res: any) => {
           if (res.response !== 'error') {
             res.results.forEach((hero) => {
@@ -176,7 +172,8 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
         duration: 2500,
       });
     } else {
-      this._searchService.addCharacters(this.selectedCharacters);
+      this._heroesService.addCharacters(this.selectedCharacters);
+
       this.router.navigate(['/home']);
     }
   }

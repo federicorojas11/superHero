@@ -14,7 +14,7 @@ import { HeroesDetailsComponent } from './heroes/details/heroes-details.componen
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './heroes/search/search.component';
-import { HeroesComponent } from './heroes/selected/heroes.component';
+import { HeroesComponent } from './heroes/selected/selected.component';
 
 @NgModule({
   declarations: [
