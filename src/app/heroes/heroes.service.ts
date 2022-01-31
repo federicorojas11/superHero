@@ -1,84 +1,99 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { Characters } from '../models/characters';
 import { Heroe } from '../models/heroFullResponse';
 
 @Injectable({ providedIn: 'root' })
 export class HeroesService {
-  endpoint = 'https://www.superheroapi.com/api.php/923777511838288/search/';
-  selectedCharacters: Characters = {} as Characters;
+  endpoint = 'https://www.superheroapi.com/api.php/923777511838288/';
+  selectedCharacters: Heroe[] = [];
+  subscriptions = new Subscription();
 
-  constructor(private http: HttpClient) {}
-
-  getHeroes(name: string): Observable<any[]> {
-    return this.http.get<any[]>(this.endpoint + name);
+  constructor(private http: HttpClient) {
+    // this.getSelectedFromLocalStorage$();
+    // console.log(this.selectedCharacters);
+    // console.log(localStorage.getItem('characters_id').length);
   }
 
-  hasSelectedCharacters() {
-    return localStorage.getItem('heroes').length != 2 ||
-      localStorage.getItem('villanos').length != 2
-      ? true
-      : false;
+  getCharactersByName(name: string): Observable<Heroe[]> {
+    return this.http.get<Heroe[]>(this.endpoint + 'search/' + name);
   }
 
-  addCharacters(characters: Characters) {
+  getCharacterById(id: number): Observable<Heroe> {
+    return this.http.get<Heroe>(this.endpoint + id);
+  }
+
+  getSelectedCharactersLength() {
+    if (localStorage.getItem('characters_id') === '[]') return [];
+    return localStorage.getItem('characters_id')
+      ? localStorage.getItem('characters_id').length
+      : [];
+  }
+
+  addCharacters(characters: Heroe[]) {
     this.selectedCharacters = characters;
-    this.addLocalStorageCharacters(characters.heroes, characters.villanos);
+    this.addLocalStorageCharacters(characters);
   }
 
-  addLocalStorageCharacters(heroes?: Heroe[], villanos?: Heroe[]) {
-    if (heroes)
-      localStorage.setItem(
-        'heroes',
-        JSON.stringify(this.selectedCharacters.heroes)
-      );
-    if (villanos)
-      localStorage.setItem(
-        'villanos',
-        JSON.stringify(this.selectedCharacters.villanos)
-      );
-  }
-
-  refreshFromLocalStorageCharacters() {
-    let storageVillanos = localStorage.getItem('villanos');
-    let villanosArr = storageVillanos ? JSON.parse(storageVillanos) : [];
-    if (villanosArr.length > 0) {
-      this.selectedCharacters.villanos = [];
-      villanosArr.forEach((element) => {
-        this.selectedCharacters.villanos.push(element);
+  addLocalStorageCharacters(characters: Heroe[]) {
+    if (characters) {
+      let charactersId = this.getAllLocalStorageId();
+      characters.forEach((character) => {
+        charactersId.push(character.id);
       });
-    }
-
-    let storageHeroes = localStorage.getItem('heroes');
-    let heroesArr = storageHeroes ? JSON.parse(storageHeroes) : [];
-    if (heroesArr.length > 0) {
-      this.selectedCharacters.heroes = [];
-      heroesArr.forEach((element) => {
-        this.selectedCharacters.heroes.push(element);
-      });
+      localStorage.setItem('characters_id', JSON.stringify(charactersId));
     }
   }
 
-  removeCharacter(id: string, alignment: string) {
-    this.refreshFromLocalStorageCharacters();
-    if (alignment === 'good')
-      if (this.selectedCharacters.heroes) {
-        let myIndex = this.selectedCharacters.heroes.indexOf(
-          this.selectedCharacters.heroes.find((char) => char.id === id)
-        );
-        if (myIndex !== -1) {
-          this.selectedCharacters.heroes.splice(myIndex);
-        }
-        this.addLocalStorageCharacters(this.selectedCharacters.heroes);
-      } else {
-        let myIndex = this.selectedCharacters.villanos.indexOf(
-          this.selectedCharacters.villanos.find((char) => char.id === id)
-        );
-        if (myIndex !== -1) {
-          this.selectedCharacters.villanos.splice(myIndex);
-        }
-        this.addLocalStorageCharacters(this.selectedCharacters.villanos);
-      }
+  getAllLocalStorageId() {
+    let e = localStorage.getItem('characters_id');
+    return e ? JSON.parse(e) : [];
   }
+
+  getHeroeById(id: number): Observable<Heroe> {
+    return this.http.get<Heroe>(this.endpoint + id);
+  }
+
+  getHeroes(): Heroe[] {
+    return this.selectedCharacters.filter(
+      (character) => character.biography.alignment === 'good'
+    );
+  }
+
+  getVillanos(): Heroe[] {
+    return this.selectedCharacters.filter(
+      (character) => character.biography.alignment === 'bad'
+    );
+  }
+
+  removeCharacter(id: string) {
+    let selected = this.getAllLocalStorageId();
+    console.log(id.toString());
+    console.log(selected[0]);
+    selected = selected.filter((e) => e !== id);
+    localStorage.setItem('characters_id', JSON.stringify(selected));
+    console.log(selected);
+  }
+
+  /*   getSelectedFromLocalStorage$(): Observable<Heroe[]> {
+    let jsonId = localStorage.getItem('characters_id');
+    let charactersId = jsonId ? JSON.parse(jsonId) : [];
+    let charactersArr$: Observable<Object>;
+    charactersArr$.pipe(tap(usersList => {
+ charactersId.forEach((id) => {
+   usersList.push(this.http.get(`${this.endpoint}/${id})`));
+ });}));
+
+    return charactersArr$;
+  }
+
+  /*   charactersId.forEach((id) => {
+      this.subscriptions.add(
+        this.getCharacterById(id).subscribe((char) => {
+          this.selectedCharacters.push(char);
+          console.log(this.selectedCharacters);
+        })
+      );
+    }); */
 }

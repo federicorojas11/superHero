@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Heroe } from 'src/app/models/heroFullResponse';
-import { Characters } from '../../models/characters';
 import { HeroesService } from '../heroes.service';
 
 declare let $: any;
@@ -22,7 +21,7 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   });
 
   characters: Heroe[] = [];
-  selectedCharacters: Characters = { heroes: [], villanos: [] };
+  selectedCharacters: Heroe[] = [];
 
   constructor(
     private _heroesService: HeroesService,
@@ -46,7 +45,7 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.characters = [];
     this.subscriptions.add(
       this._heroesService
-        .getHeroes(this.searchForm.get('name').value)
+        .getCharactersByName(this.searchForm.get('name').value)
         .subscribe((res: any) => {
           if (res.response !== 'error') {
             res.results.forEach((hero) => {
@@ -65,70 +64,45 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
             duration: 2500,
           });
         } else {
-          this.addHeroe(id);
+          this.addCharacter(id);
         }
       } else {
-        if (this.selectedCharacters.villanos.length >= 3) {
+        if (this.getVillanos().length >= 3) {
           this._snackBar.open('El equipo de villanos ya está completo...', '', {
             duration: 2500,
           });
         } else {
-          this.addVillano(id);
+          this.addCharacter(id);
         }
       }
     }
   }
 
   isSelected(id: string): boolean {
-    if (
-      this.selectedCharacters.heroes.find((x) => x.id === id) != undefined ||
-      this.selectedCharacters.villanos.find((x) => x.id === id) != undefined
-    )
+    if (this.selectedCharacters.find((x) => x.id === id) != undefined)
       return true;
     return false;
   }
 
   autoFillSelected() {
-    if (this.getSelectedLength() > 0) {
+    if (this.selectedCharacters.length > 0) {
       for (let i = 0; i < 3; i++) {
-        this.autoFillHeroes(i);
-        this.autoFillVillanos(i);
+        this.autoFillCharacters(i);
       }
     }
   }
 
-  autoFillHeroes(index: number) {
-    if (this.selectedCharacters.heroes[index])
-      if (
-        this.findCharacter(this.selectedCharacters.heroes[index].id) !==
-        undefined
-      ) {
-        $('.hero-' + this.selectedCharacters.heroes[index].id).addClass(
+  autoFillCharacters(index: number) {
+    if (this.selectedCharacters[index])
+      if (this.findCharacter(this.selectedCharacters[index].id) !== undefined) {
+        $('.hero-' + this.selectedCharacters[index].id).addClass(
           'selected-card'
         );
       }
   }
 
-  autoFillVillanos(index: number) {
-    if (this.selectedCharacters.villanos[index])
-      if (
-        this.findCharacter(this.selectedCharacters.villanos[index].id) !==
-        undefined
-      ) {
-        $('.hero-' + this.selectedCharacters.villanos[index].id).addClass(
-          'selected-card'
-        );
-      }
-  }
-
-  findHeroe(id: string): Heroe {
-    return this.selectedCharacters.heroes.find((heroe) => heroe.id === id);
-  }
-
-  findVillano(id: string): Heroe {
-    return this.selectedCharacters.villanos.find(
-      (villano) => villano.id === id
-    );
+  findSelectedCharacter(id: string): Heroe {
+    return this.selectedCharacters.find((char) => char.id === id);
   }
 
   findCharacter(id: string): Heroe {
@@ -136,55 +110,31 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   removeCharacterIfFound(id: string): boolean {
-    // busco si el heroe ya esta seleccionado
-    let isDeleted = this.findHeroe(id)
+    // busco si el personaje ya esta seleccionado
+    let state = this.findSelectedCharacter(id)
       ? // si lo encuentra lo quita del array
-        this.removeHeroe(id)
+        this.removeCharacter(id)
       : false;
-
-    // lo mismo con los villanos
-    if (isDeleted === false) {
-      isDeleted = this.findVillano(id)
-        ? // si lo encuentra lo quita del array
-          this.removeVillano(id)
-        : false;
-    }
-    return isDeleted;
+    return state;
   }
 
-  removeHeroe(id: string): boolean {
-    this.selectedCharacters.heroes = this.selectedCharacters.heroes.filter(
-      (heroe) => heroe !== this.findHeroe(id)
-    );
-    $('.hero-' + id).removeClass('selected-card');
-    return true;
-  }
-
-  removeVillano(id: string): boolean {
-    this.selectedCharacters.villanos = this.selectedCharacters.villanos.filter(
-      (villano) => villano !== this.findVillano(id)
+  removeCharacter(id: string): boolean {
+    this.selectedCharacters = this.selectedCharacters.filter(
+      (char) => char !== this.findCharacter(id)
     );
     $('.hero-' + id).removeClass('selected-card');
     return true;
   }
 
   submitCharacters() {
-    if (this.getSelectedLength() === 0) {
+    if (this.selectedCharacters.length === 0) {
       this._snackBar.open('El equipo está vacío...', '', {
         duration: 2500,
       });
     } else {
       this._heroesService.addCharacters(this.selectedCharacters);
-
       this.router.navigate(['/home']);
     }
-  }
-
-  getSelectedLength(): number {
-    return (
-      this.selectedCharacters.heroes.length +
-      this.selectedCharacters.villanos.length
-    );
   }
 
   getAlignment(character: Heroe): string {
@@ -192,28 +142,23 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   getHeroes(): Heroe[] {
-    return this.selectedCharacters.heroes;
+    return this.selectedCharacters.filter(
+      (character) => character.biography.alignment === 'good'
+    );
   }
 
   getVillanos(): Heroe[] {
-    return this.selectedCharacters.villanos;
+    return this.selectedCharacters.filter(
+      (character) => character.biography.alignment === 'bad'
+    );
   }
 
-  addHeroe(id: string) {
-    this.setHeroe(this.findCharacter(id));
+  addCharacter(id: string) {
+    this.setCharacter(this.findCharacter(id));
     $('.hero-' + id).addClass('selected-card');
   }
 
-  addVillano(id: string) {
-    this.setVillano(this.findCharacter(id));
-    $('.hero-' + id).addClass('selected-card');
-  }
-
-  setHeroe(character: Heroe): void {
-    this.selectedCharacters.heroes.push(character);
-  }
-
-  setVillano(character: Heroe): void {
-    this.selectedCharacters.villanos.push(character);
+  setCharacter(character: Heroe): void {
+    this.selectedCharacters.push(character);
   }
 }

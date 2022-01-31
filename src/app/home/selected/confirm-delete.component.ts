@@ -1,7 +1,8 @@
-import { Input, ViewEncapsulation } from '@angular/core';
+import { Input, Output, ViewEncapsulation } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { HeroesService } from '../heroes.service';
+import { EventEmitter } from '@angular/core';
+import { HeroesService } from '../../heroes/heroes.service';
 
 @Component({
   selector: 'app-confirm-delete',
@@ -10,7 +11,7 @@ import { HeroesService } from '../heroes.service';
 })
 export class ConfirmDeleteComponent implements OnInit {
   @Input() id: string;
-  @Input() alignment: string;
+  @Output() confirmDelete: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public modal: NgbActiveModal,
@@ -20,7 +21,8 @@ export class ConfirmDeleteComponent implements OnInit {
   ngOnInit(): void {}
 
   deleteCharacter() {
-    this._heroesService.removeCharacter(this.id, this.alignment);
+    this._heroesService.removeCharacter(this.id);
+    this.confirmDelete.emit('deleted');
     this.modal.close();
   }
 }
