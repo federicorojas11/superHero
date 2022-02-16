@@ -1,7 +1,5 @@
-import { ViewEncapsulation } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HeroesDetailsComponent } from '../heroes/details/heroes-details.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +8,12 @@ import { HeroesDetailsComponent } from '../heroes/details/heroes-details.compone
 })
 export class HeaderComponent implements OnInit {
   navbarCollapsed = true;
-  constructor(private modalService: NgbModal) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
-  searchHeroes() {
-    this.modalService.open(HeroesDetailsComponent, { size: 'xl' });
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }

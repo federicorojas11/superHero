@@ -15,6 +15,9 @@ import { HeroesDetailsComponent } from './heroes/details/heroes-details.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './heroes/search/search.component';
 import { HeroesComponent } from './home/selected/selected.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from '../environments/environment';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -35,8 +38,9 @@ import { HeroesComponent } from './home/selected/selected.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

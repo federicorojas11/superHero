@@ -29,3 +29,12 @@ export interface Heroe {
     url: string;
   };
 }
+
+export interface Powerstats {
+  combat: any;
+  durability: any;
+  intelligence: any;
+  power: any;
+  speed: any;
+  strength: any;
+}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "superheroes11": {
+      "hosting": {
+        "superHero": [
+          "superheroes11"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "superheroes11"
+  }
+}

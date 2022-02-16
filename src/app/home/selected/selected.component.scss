@@ -1,27 +1,34 @@
-h3,
-h4 {
+.team-title {
   color: rgba(214, 210, 210, 0.808);
-  font-family: "Galactic";
-}
-h3 {
   font-size: 3em;
-}
+  font-family: "Galactic";
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: display 1s ease-in forwards;
+  @keyframes display {
+    0%,
+    70% {
+      opacity: 0;
+    }
 
-h4 {
-  color: #000;
+    100% {
+      opacity: 1;
+      transform: translateY(20px);
+    }
+  }
 }
 
 .card-hero {
   width: 100%;
   min-height: 292px;
   min-width: 160px;
-  transition: 0.2s ease all;
   border-radius: 2px;
   background: linear-gradient(
     rgba(240, 9, 9, 0.164),
     transparent,
     rgba(0, 0, 255, 0.267)
   );
+
   @media screen and (max-width: 575px) {
     min-height: 320px;
   }
@@ -58,21 +65,29 @@ h4 {
 }
 
 .counter-three {
-  animation: smooth 0.5s ease forwards;
+  animation: smooth 1s ease forwards;
+  transform: translateX(20px);
   font-family: roboto;
   text-align: center;
   padding: 15px;
-  font-size: 35px;
-  color: rgb(255, 231, 14);
   backdrop-filter: blur(5px);
   background-color: rgba(185, 185, 185, 0.089);
-  text-shadow: 0px 1px 7px rgba(26, 27, 22, 0.89);
+
+  & span {
+    text-shadow: 0px 1px 7px rgba(26, 27, 22, 0.89);
+    font-size: 35px;
+    color: rgb(255, 231, 14);
+  }
+
   @keyframes smooth {
-    0% {
+    0%,
+    75% {
       opacity: 0;
+      transform: translateX(0px);
     }
     100% {
       opacity: 1;
+      transform: translateX(-20px);
     }
   }
   @media screen and (max-width: 991px) {

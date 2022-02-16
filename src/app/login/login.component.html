@@ -3,12 +3,12 @@
     <img src="../../assets/img/background.jpg" alt="">
     <mat-card>
       <form class="d-flex flex-column" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field>
+        <mat-form-field class="my-1">
           <input type="email" matInput placeholder="Email" formControlName="email" />
           <mat-hint>Por favor ingresa un email válido.</mat-hint>
           <mat-error>Email invalido.</mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="my-1">
           <input type="password" matInput placeholder="Password" formControlName="password" />
           <mat-hint>Por favor ingresa tu contraseña.</mat-hint>
           <mat-error>Ingresa una password.</mat-error>
@@ -17,6 +17,10 @@
           Enviar
         </button>
       </form>
+      <div class="text pt-1">
+        <span> <u>Nota:</u> <br> ingresar con el email <b>challenge@alkemy.org</b><br>
+          password: <b>angular</b> </span>
+      </div>
     </mat-card>
   </div>
 </div>

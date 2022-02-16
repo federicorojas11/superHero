@@ -10,11 +10,7 @@ export class HeroesService {
   selectedCharacters: Heroe[] = [];
   subscriptions = new Subscription();
 
-  constructor(private http: HttpClient) {
-    // this.getSelectedFromLocalStorage$();
-    // console.log(this.selectedCharacters);
-    // console.log(localStorage.getItem('characters_id').length);
-  }
+  constructor(private http: HttpClient) {}
 
   getCharactersByName(name: string): Observable<Heroe[]> {
     return this.http.get<Heroe[]>(this.endpoint + 'search/' + name);
@@ -38,15 +34,18 @@ export class HeroesService {
 
   addLocalStorageCharacters(characters: Heroe[]) {
     if (characters) {
-      let charactersId = this.getAllLocalStorageId();
+      let charactersId = this.getAllLocalStoragedId();
       characters.forEach((character) => {
         charactersId.push(character.id);
       });
-      localStorage.setItem('characters_id', JSON.stringify(charactersId));
+      localStorage.setItem(
+        'characters_id',
+        JSON.stringify([...new Set(charactersId)])
+      );
     }
   }
 
-  getAllLocalStorageId() {
+  getAllLocalStoragedId() {
     let e = localStorage.getItem('characters_id');
     return e ? JSON.parse(e) : [];
   }
@@ -68,32 +67,8 @@ export class HeroesService {
   }
 
   removeCharacter(id: string) {
-    let selected = this.getAllLocalStorageId();
-    console.log(id.toString());
-    console.log(selected[0]);
+    let selected = this.getAllLocalStoragedId();
     selected = selected.filter((e) => e !== id);
     localStorage.setItem('characters_id', JSON.stringify(selected));
-    console.log(selected);
   }
-
-  /*   getSelectedFromLocalStorage$(): Observable<Heroe[]> {
-    let jsonId = localStorage.getItem('characters_id');
-    let charactersId = jsonId ? JSON.parse(jsonId) : [];
-    let charactersArr$: Observable<Object>;
-    charactersArr$.pipe(tap(usersList => {
- charactersId.forEach((id) => {
-   usersList.push(this.http.get(`${this.endpoint}/${id})`));
- });}));
-
-    return charactersArr$;
-  }
-
-  /*   charactersId.forEach((id) => {
-      this.subscriptions.add(
-        this.getCharacterById(id).subscribe((char) => {
-          this.selectedCharacters.push(char);
-          console.log(this.selectedCharacters);
-        })
-      );
-    }); */
 }

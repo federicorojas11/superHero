@@ -2,8 +2,8 @@
   <div class="container">
 
     <div class="row">
-      <div class="col text-center mt-3">
-        <h3>Equipo elegido</h3>
+      <div class="col text-center mt-3 team-title">
+        <span>Equipo elegido</span>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
 
             <div>
               <button (click)="showDetails(heroe)" class="btn btn-primary mx-1">+ Detalles</button>
-              <button (click)="removeCharacter(heroe.id)" class="btn btn-secondary mx-1">x
+              <button (click)="removeCharacter(heroe)" class="btn btn-secondary mx-1">x
                 Eliminar</button>
             </div>
           </div>
@@ -73,9 +73,23 @@
         </a>
       </div>
 
-      <div class="col col-lg-3 d-flex align-items-center justify-content-md-center counter-three heroes">
-        <p>Heroes: {{this.heroes.length}}/3 </p>
-
+      <div class="col col-lg-3 mt-4 pt-3 text-center counter-three heroes">
+        <span>Heroes: {{this.heroes.length}}/3 </span>
+        <!--  <ul class="mt-5">
+          Total powerstats
+          <li class="mt-3 pt-1">
+            Inteligence:
+             {{this.heroesPowerstats.intelligence}}
+          </li>
+          <li class="mt-2 pt-1">
+            Dapibus ac facilisis in
+            2
+          </li>
+          <li class="mt-2 pt-1">
+            Morbi leo risus
+            1
+          </li>
+        </ul> -->
       </div>
     </div>
 
@@ -93,7 +107,7 @@
 
             <div>
               <button (click)="showDetails(villano)" class="btn btn-primary mx-1">+ Detalles</button>
-              <button (click)="removeCharacter(villano.id)" class="btn btn-secondary mx-1">x
+              <button (click)="removeCharacter(villano)" class="btn btn-secondary mx-1">x
                 Eliminar</button>
             </div>
           </div>
@@ -144,8 +158,8 @@
         </a>
       </div>
 
-      <div class="col col-lg-3 d-flex align-items-center justify-content-md-center counter-three villanos">
-        <p>villanos: {{this.villanos.length}}/3 </p>
+      <div class="col col-lg-3 text-center counter-three villanos">
+        <span>villanos: {{this.villanos.length}}/3 </span>
       </div>
     </div>
 

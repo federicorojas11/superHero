@@ -15,13 +15,13 @@ declare let $: any;
 })
 export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   private subscriptions = new Subscription();
-
+  characters: Heroe[] = [];
+  selectedCharacters: Heroe[] = [];
+  availableHeroes: number;
+  availableVillanos: number;
   searchForm = new FormGroup({
     name: new FormControl('', Validators.required),
   });
-
-  characters: Heroe[] = [];
-  selectedCharacters: Heroe[] = [];
 
   constructor(
     private _heroesService: HeroesService,
@@ -30,7 +30,8 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.search();
+    this.getCharacters();
+    console.log(this.selectedCharacters);
   }
 
   ngAfterViewChecked(): void {
@@ -41,6 +42,21 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  getCharacters() {
+    let charactersId = this._heroesService.getAllLocalStoragedId();
+    if (charactersId) {
+      charactersId.forEach((element) => {
+        this._heroesService
+          .getHeroeById(element)
+          .subscribe((character: Heroe) => {
+            this.selectedCharacters.push(character);
+          });
+      });
+      this.availableHeroes = this.getHeroes().length;
+      this.availableVillanos = this.getVillanos().length;
+    }
+  }
+
   search() {
     this.characters = [];
     this.subscriptions.add(
@@ -48,8 +64,13 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
         .getCharactersByName(this.searchForm.get('name').value)
         .subscribe((res: any) => {
           if (res.response !== 'error') {
-            res.results.forEach((hero) => {
-              this.characters.push(hero);
+            res.results.forEach((hero: Heroe) => {
+              if (
+                !this.selectedCharacters.find(
+                  (character) => character.id === hero.id
+                )
+              )
+                this.characters.push(hero);
             });
           }
         })
@@ -61,7 +82,7 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
       if (this.findCharacter(id).biography.alignment === 'good') {
         if (this.getHeroes().length >= 3) {
           this._snackBar.open('El equipo de heroes ya está completo...', '', {
-            duration: 2500,
+            duration: 1300,
           });
         } else {
           this.addCharacter(id);
@@ -69,13 +90,22 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
       } else {
         if (this.getVillanos().length >= 3) {
           this._snackBar.open('El equipo de villanos ya está completo...', '', {
-            duration: 2500,
+            duration: 1300,
           });
         } else {
           this.addCharacter(id);
         }
       }
     }
+  }
+
+  addCharacter(id: string) {
+    this.setCharacter(this.findCharacter(id));
+    $('.hero-' + id).addClass('selected-card');
+  }
+
+  setCharacter(character: Heroe): void {
+    this.selectedCharacters.push(character);
   }
 
   isSelected(id: string): boolean {
@@ -93,12 +123,12 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   autoFillCharacters(index: number) {
-    if (this.selectedCharacters[index])
-      if (this.findCharacter(this.selectedCharacters[index].id) !== undefined) {
-        $('.hero-' + this.selectedCharacters[index].id).addClass(
-          'selected-card'
-        );
-      }
+    if (
+      this.selectedCharacters[index] &&
+      this.findCharacter(this.selectedCharacters[index].id) !== undefined
+    ) {
+      $('.hero-' + this.selectedCharacters[index].id).addClass('selected-card');
+    }
   }
 
   findSelectedCharacter(id: string): Heroe {
@@ -151,14 +181,5 @@ export class SearchComponent implements OnInit, AfterViewChecked, OnDestroy {
     return this.selectedCharacters.filter(
       (character) => character.biography.alignment === 'bad'
     );
-  }
-
-  addCharacter(id: string) {
-    this.setCharacter(this.findCharacter(id));
-    $('.hero-' + id).addClass('selected-card');
-  }
-
-  setCharacter(character: Heroe): void {
-    this.selectedCharacters.push(character);
   }
 }
